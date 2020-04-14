@@ -1,6 +1,30 @@
 #board {
-  position: relative;
-  height: 100px;
-  width: 100px;
-  background-color: red;
+  margin: auto;
+  height: 96vh;
+  width: 96vh;
+  background-color: #aaa;
+  display: grid;
+  row-gap: 5px;
+  column-gap: 5px;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.square {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  display: grid;
+}
+
+.player-mark-x {
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.player-mark-o {
+  margin: auto;
+  height: 100%;
+  width: 100%;
 }

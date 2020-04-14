@@ -1,11 +1,5 @@
 module Vdom = Virtual_dom.Vdom;
 
-let view_of_player_mark = (player: Player.t): Vdom.Node.t =>
-  switch (player) {
-  | X => Vdom.Node.text("X")
-  | O => Vdom.Node.text("O")
-  };
-
 let view_of_square =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
@@ -13,11 +7,18 @@ let view_of_square =
     )
     : Vdom.Node.t =>
   switch (square) {
-  | Unmarked => Vdom.Node.div([], [])
+  | Unmarked =>
+    Vdom.Node.div(
+      [
+        Vdom.Attr.classes(["square"]),
+        Vdom.Attr.on_click(_ => inject(Update.Action.MarkSquare(index))),
+      ],
+      [],
+    )
   | Marked(player) =>
     Vdom.Node.div(
-      [Vdom.Attr.on_click(_ => inject(Update.Action.MarkSquare(index)))],
-      [view_of_player_mark(player)],
+      [Vdom.Attr.classes(["square"])],
+      [PlayerMark.view(player)],
     )
   };
 
