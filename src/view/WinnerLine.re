@@ -3,25 +3,21 @@ module Vdom = Virtual_dom.Vdom;
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
 
-let view = (((r0, c0), (r1, c1), (r2, c2))) => {
-  let min_r = min(min(r0, r1), r2);
-  let max_r = max(max(r0, r1), r2);
-  let min_c = min(min(c0, c1), c2);
-  let max_c = max(max(c0, c1), c2);
-  let (x1, x2) =
-    min_c == max_c
-      ? {
-        let x = (2 * min_c + 1) * 10;
-        (x, x);
-      }
-      : (4, 56);
-  let (y1, y2) =
-    min_r == max_r
-      ? {
-        let y = (2 * min_r + 1) * 10;
-        (y, y);
-      }
-      : (4, 56);
+let view = (((r0, c0), _, (r2, c2))) => {
+  let a = 4;
+  let b = 56;
+  let ((x1, y1), (x2, y2)) =
+    if (c0 == c2) {
+      let x = (2 * c0 + 1) * 10;
+      ((x, a), (x, b));
+    } else if (r0 == r2) {
+      let y = (2 * r0 + 1) * 10;
+      ((a, y), (b, y));
+    } else if (Int.compare(r0, r2) == Int.compare(c0, c2)) {
+      ((a, a), (b, b));
+    } else {
+      ((a, b), (b, a));
+    };
   svg(
     "svg",
     [Vdom.Attr.id("winner-line"), attr("viewBox", "0 0 60 60")],
