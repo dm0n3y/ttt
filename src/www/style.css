@@ -22,12 +22,20 @@
   margin: auto;
   height: 100%;
   width: 100%;
+  fill: none;
+  stroke: black;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .player-mark-o {
   margin: auto;
   height: 100%;
   width: 100%;
+  fill: none;
+  stroke: black;
+  stroke-width: 2;
 }
 
 #winner-line {
@@ -36,17 +44,8 @@
   left: 0;
   height: 100%;
   width: 100%;
+  fill: none;
+  stroke: black;
+  stroke-width: 2;
+  stroke-linecap: round;
 }
-
-/*
-#winner-msg {
-  font-family: Helvetica, sans-serif;
-  font-size: 14pt;
-}
-#winner-msg .player-mark-x,
-#winner-msg .player-mark-o {
-  display: inline-block;
-  height: 14pt;
-  width: 14pt;
-};
-*/

@@ -8,15 +8,7 @@ let view = (p: Player.t): Vdom.Node.t =>
   | X =>
     svg(
       "svg",
-      [
-        attr("viewBox", "0 0 24 24"),
-        attr("fill", "none"),
-        attr("stroke", "black"),
-        attr("stroke-width", "2"),
-        attr("stroke-linecap", "round"),
-        attr("stroke-linejoin", "round"),
-        Vdom.Attr.classes(["player-mark-o"]),
-      ],
+      [Vdom.Attr.classes(["player-mark-x"]), attr("viewBox", "0 0 24 24")],
       [
         Vdom.Node.create_svg(
           "line",
@@ -43,13 +35,7 @@ let view = (p: Player.t): Vdom.Node.t =>
   | O =>
     svg(
       "svg",
-      [
-        attr("viewBox", "0 0 24 24"),
-        attr("fill", "none"),
-        attr("stroke", "black"),
-        attr("stroke-width", "2"),
-        Vdom.Attr.classes(["player-mark-x"]),
-      ],
+      [Vdom.Attr.classes(["player-mark-o"]), attr("viewBox", "0 0 24 24")],
       [
         Vdom.Node.create_svg(
           "circle",

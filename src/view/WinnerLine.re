@@ -37,24 +37,17 @@ let view = (((r0, c0), (r1, c1), (r2, c2))) => {
         let x = (2 * int_of(min_c) + 1) * 10;
         (x, x);
       }
-      : (5, 55);
+      : (4, 56);
   let (y1, y2) =
     min_r == max_r
       ? {
         let y = (2 * int_of(min_r) + 1) * 10;
         (y, y);
       }
-      : (5, 55);
+      : (4, 56);
   svg(
     "svg",
-    [
-      Vdom.Attr.id("winner-line"),
-      attr("viewBox", "0 0 60 60"),
-      attr("fill", "none"),
-      attr("stroke", "black"),
-      attr("stroke-width", "2"),
-      attr("stroke-linecap", "round"),
-    ],
+    [Vdom.Attr.id("winner-line"), attr("viewBox", "0 0 60 60")],
     [
       svg(
         "line",
