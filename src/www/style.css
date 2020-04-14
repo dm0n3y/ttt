@@ -1,21 +1,45 @@
+:root {
+  --stroke-color: black;
+  --board-z: 0;
+  --grid-z: 1;
+  --square-z: 2;
+  --winner-line-z: 3;
+}
+
 #board {
   position: relative;
   margin: auto;
   height: 96vh;
   width: 96vh;
-  background-color: #aaa;
   display: grid;
-  row-gap: 5px;
-  column-gap: 5px;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
+  background-color: transparent;
+  z-index: var(--board-z);
+}
+
+#grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--grid-z);
+}
+#grid svg {
+  stroke: var(--stroke-color);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1;
+  fill: none;
 }
 
 .square {
-  background-color: white;
+  background-color: transparent;
   height: 100%;
   width: 100%;
   display: grid;
+  z-index: var(--square-z);
 }
 
 .player-mark-x {
@@ -23,7 +47,7 @@
   height: 100%;
   width: 100%;
   fill: none;
-  stroke: black;
+  stroke: var(--stroke-color);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -34,7 +58,7 @@
   height: 100%;
   width: 100%;
   fill: none;
-  stroke: black;
+  stroke: var(--stroke-color);
   stroke-width: 2;
 }
 
@@ -45,7 +69,8 @@
   height: 100%;
   width: 100%;
   fill: none;
-  stroke: black;
+  stroke: var(--stroke-color);
   stroke-width: 2;
   stroke-linecap: round;
+  z-index: var(--winner-line-z);
 }

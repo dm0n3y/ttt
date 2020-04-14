@@ -22,7 +22,7 @@ let view_of_square =
 
 let view =
     (~inject: Update.Action.t => Vdom.Event.t, model: Model.t): Vdom.Node.t => {
-  let board_view =
+  let squares =
     Board.index_list
     |> List.map(sq_index =>
          view_of_square(
@@ -31,7 +31,10 @@ let view =
            model.board |> Board.get_square(sq_index),
          )
        );
-  let winner_line_view =
+  let winner_line =
     model |> Model.winner |> Option.map(WinnerLine.view) |> Option.to_list;
-  Vdom.Node.div([Vdom.Attr.id("board")], board_view @ winner_line_view);
+  Vdom.Node.div(
+    [Vdom.Attr.id("board")],
+    [Grid.view] @ squares @ winner_line,
+  );
 };
