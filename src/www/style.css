@@ -28,3 +28,24 @@
   height: 100%;
   width: 100%;
 }
+
+#winner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/*
+#winner-msg {
+  font-family: Helvetica, sans-serif;
+  font-size: 14pt;
+}
+#winner-msg .player-mark-x,
+#winner-msg .player-mark-o {
+  display: inline-block;
+  height: 14pt;
+  width: 14pt;
+};
+*/

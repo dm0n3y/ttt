@@ -19,7 +19,7 @@ let init: t = {
   ),
 };
 
-let winner = (model: t): option((Player.t, Board.three_in_a_row)) =>
+let winner = (model: t): option(Board.three_in_a_row) =>
   Board.threes_in_a_row
   |> List.filter_map(three_in_a_row => {
        let (i0, i1, i2) = three_in_a_row;
@@ -29,12 +29,12 @@ let winner = (model: t): option((Player.t, Board.three_in_a_row)) =>
          model.board |> Board.get_square(i2),
        ) {
        | (Marked(p0), Marked(p1), Marked(p2)) when p0 == p1 && p1 == p2 =>
-         Some((p0, three_in_a_row))
+         Some(three_in_a_row)
        | _ => None
        };
      })
   |> (
     fun
     | [] => None
-    | [winner, ..._] => Some(winner)
+    | [three_in_a_row, ..._] => Some(three_in_a_row)
   );

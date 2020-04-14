@@ -3,8 +3,8 @@ module Vdom = Virtual_dom.Vdom;
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
 
-let view = (player: Player.t): Vdom.Node.t =>
-  switch (player) {
+let view = (p: Player.t): Vdom.Node.t =>
+  switch (p) {
   | X =>
     svg(
       "svg",

@@ -16,16 +16,13 @@ let view_of_square =
       ],
       [],
     )
-  | Marked(player) =>
-    Vdom.Node.div(
-      [Vdom.Attr.classes(["square"])],
-      [PlayerMark.view(player)],
-    )
+  | Marked(p) =>
+    Vdom.Node.div([Vdom.Attr.classes(["square"])], [PlayerMark.view(p)])
   };
 
 let view =
     (~inject: Update.Action.t => Vdom.Event.t, model: Model.t): Vdom.Node.t => {
-  let square_views =
+  let board_view =
     Board.index_list
     |> List.map(sq_index =>
          view_of_square(
@@ -34,5 +31,7 @@ let view =
            model.board |> Board.get_square(sq_index),
          )
        );
-  Vdom.Node.div([Vdom.Attr.id("board")], square_views);
+  let winner_line_view =
+    model |> Model.winner |> Option.map(WinnerLine.view) |> Option.to_list;
+  Vdom.Node.div([Vdom.Attr.id("board")], board_view @ winner_line_view);
 };

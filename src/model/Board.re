@@ -29,6 +29,7 @@ let index_list: list(square_index) =
     (Two, Two),
   ];
 
+[@deriving sexp]
 type three_in_a_row = Triple.t(square_index);
 let threes_in_a_row: list(three_in_a_row) =
   Triple.[
