@@ -1,12 +1,7 @@
-type row('square) = Triple.t('square);
-type t('square) = Triple.t(row('square));
+type t('square) = Triple.t(Triple.t('square));
 
 [@deriving sexp]
-type row_index = Triple.index;
-[@deriving sexp]
-type col_index = Triple.index;
-[@deriving sexp]
-type square_index = (row_index, col_index);
+type square_index = (Triple.index, Triple.index);
 
 let get_row = Triple.get_component;
 let put_row = Triple.put_component;
@@ -21,19 +16,28 @@ let put_square = ((r, c): square_index, square: 'square, board: t('square)) => {
   board |> put_row(r, new_row);
 };
 
-let to_indexed_list = (board: t('square)): list((square_index, 'square)) => {
-  let sq_indices =
-    Triple.[
-      (Zero, Zero),
-      (Zero, One),
-      (Zero, Two),
-      (One, Zero),
-      (One, One),
-      (One, Two),
-      (Two, Zero),
-      (Two, One),
-      (Two, Two),
-    ];
-  sq_indices
-  |> List.map(sq_index => (sq_index, board |> get_square(sq_index)));
-};
+let index_list: list(square_index) =
+  Triple.[
+    (Zero, Zero),
+    (Zero, One),
+    (Zero, Two),
+    (One, Zero),
+    (One, One),
+    (One, Two),
+    (Two, Zero),
+    (Two, One),
+    (Two, Two),
+  ];
+
+type three_in_a_row = Triple.t(square_index);
+let threes_in_a_row: list(three_in_a_row) =
+  Triple.[
+    ((Zero, Zero), (Zero, One), (Zero, Two)),
+    ((One, Zero), (One, One), (One, Two)),
+    ((Two, Zero), (Two, One), (Two, Two)),
+    ((Zero, Zero), (One, Zero), (Two, Zero)),
+    ((Zero, One), (One, One), (Two, One)),
+    ((Zero, Two), (One, Two), (Two, Two)),
+    ((Zero, Zero), (One, One), (Two, Two)),
+    ((Zero, Two), (One, One), (Two, Zero)),
+  ];
