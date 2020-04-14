@@ -16,29 +16,27 @@ let put_square = ((r, c): square_index, square: 'square, board: t('square)) => {
   board |> put_row(r, new_row);
 };
 
-let index_list: list(square_index) =
-  Triple.[
-    (Zero, Zero),
-    (Zero, One),
-    (Zero, Two),
-    (One, Zero),
-    (One, One),
-    (One, Two),
-    (Two, Zero),
-    (Two, One),
-    (Two, Two),
-  ];
+let index_list: list(square_index) = [
+  (0, 0),
+  (0, 1),
+  (0, 2),
+  (1, 0),
+  (1, 1),
+  (1, 2),
+  (2, 0),
+  (2, 1),
+  (2, 2),
+];
 
 [@deriving sexp]
 type three_in_a_row = Triple.t(square_index);
-let threes_in_a_row: list(three_in_a_row) =
-  Triple.[
-    ((Zero, Zero), (Zero, One), (Zero, Two)),
-    ((One, Zero), (One, One), (One, Two)),
-    ((Two, Zero), (Two, One), (Two, Two)),
-    ((Zero, Zero), (One, Zero), (Two, Zero)),
-    ((Zero, One), (One, One), (Two, One)),
-    ((Zero, Two), (One, Two), (Two, Two)),
-    ((Zero, Zero), (One, One), (Two, Two)),
-    ((Zero, Two), (One, One), (Two, Zero)),
-  ];
+let threes_in_a_row: list(three_in_a_row) = [
+  ((0, 0), (0, 1), (0, 2)),
+  ((1, 0), (1, 1), (1, 2)),
+  ((2, 0), (2, 1), (2, 2)),
+  ((0, 0), (1, 0), (2, 0)),
+  ((0, 1), (1, 1), (2, 1)),
+  ((0, 2), (1, 2), (2, 2)),
+  ((0, 0), (1, 1), (2, 2)),
+  ((0, 2), (1, 1), (2, 0)),
+];

@@ -1,28 +1,5 @@
 module Vdom = Virtual_dom.Vdom;
 
-let int_of = (i: Triple.index) =>
-  switch (i) {
-  | Zero => 0
-  | One => 1
-  | Two => 2
-  };
-let min = (i: Triple.index, j: Triple.index) =>
-  switch (i, j) {
-  | (Zero, _) => i
-  | (_, Zero) => j
-  | (One, _) => i
-  | (_, One) => j
-  | (Two, Two) => i
-  };
-let max = (i: Triple.index, j: Triple.index) =>
-  switch (i, j) {
-  | (Two, _) => i
-  | (_, Two) => j
-  | (One, _) => i
-  | (_, One) => j
-  | (Zero, Zero) => i
-  };
-
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
 
@@ -34,14 +11,14 @@ let view = (((r0, c0), (r1, c1), (r2, c2))) => {
   let (x1, x2) =
     min_c == max_c
       ? {
-        let x = (2 * int_of(min_c) + 1) * 10;
+        let x = (2 * min_c + 1) * 10;
         (x, x);
       }
       : (4, 56);
   let (y1, y2) =
     min_r == max_r
       ? {
-        let y = (2 * int_of(min_r) + 1) * 10;
+        let y = (2 * min_r + 1) * 10;
         (y, y);
       }
       : (4, 56);

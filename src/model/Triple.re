@@ -1,21 +1,20 @@
+open Sexplib.Std;
+
 [@deriving sexp]
 type t('c) = ('c, 'c, 'c);
 
 [@deriving sexp]
-type index =
-  | Zero
-  | One
-  | Two;
+type index = int;
 
-let get_component = (i: index, (c0, c1, c2)) =>
+let get_component = (i, (c0, c1, c2)) =>
   switch (i) {
-  | Zero => c0
-  | One => c1
-  | Two => c2
+  | 0 => c0
+  | 1 => c1
+  | _two => c2
   };
-let put_component = (i: index, c, (c0, c1, c2)) =>
+let put_component = (i, c, (c0, c1, c2)) =>
   switch (i) {
-  | Zero => (c, c1, c2)
-  | One => (c0, c, c2)
-  | Two => (c0, c1, c)
+  | 0 => (c, c1, c2)
+  | 1 => (c0, c, c2)
+  | _two => (c0, c1, c)
   };
