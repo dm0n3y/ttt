@@ -1,4 +1,5 @@
 #board {
+  position: relative;
   margin: auto;
   height: 96vh;
   width: 96vh;
