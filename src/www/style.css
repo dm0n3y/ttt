@@ -1,6 +1,6 @@
 :root {
   --inactive-subgrid-color: #ccc;
-  --active-subgrid-color: #333;
+  --active-subgrid-color: black;
   --grid-color: black;
   --board-z: 0;
   --grid-z: 1;
