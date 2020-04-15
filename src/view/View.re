@@ -3,7 +3,7 @@ module Vdom = Virtual_dom.Vdom;
 let view_of_square =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
-      index: Board.index,
+      index: Grid.index,
       square: Model.square,
     )
     : Vdom.Node.t =>
@@ -32,18 +32,18 @@ let cursor_attr = (p: Player.t) =>
 let view =
     (~inject: Update.Action.t => Vdom.Event.t, model: Model.t): Vdom.Node.t => {
   let squares =
-    Board.index_list
+    Grid.index_list
     |> List.map(index =>
          view_of_square(
            ~inject,
            index,
-           model.board |> Board.get_square(index),
+           model.board |> Grid.get_square(index),
          )
        );
   let winner_line =
     model |> Model.winner |> Option.map(WinnerLine.view) |> Option.to_list;
   Vdom.Node.div(
     [Vdom.Attr.id("board"), cursor_attr(model.player_turn)],
-    [Grid.view] @ squares @ winner_line,
+    [GridLines.view] @ squares @ winner_line,
   );
 };

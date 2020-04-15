@@ -1,4 +1,4 @@
-type t('square) = Triple.t(Triple.t('square));
+type t('item) = Triple.t(Triple.t('item));
 
 [@deriving sexp]
 type index = (Triple.index, Triple.index);
@@ -9,11 +9,11 @@ let put_row = Triple.put_component;
 let get_col = Triple.get_component;
 let put_col = Triple.put_component;
 
-let get_square = ((r, c): index, board: t('square)) =>
-  board |> get_row(r) |> get_col(c);
-let put_square = ((r, c): index, square: 'square, board: t('square)) => {
-  let new_row = board |> get_row(r) |> put_col(c, square);
-  board |> put_row(r, new_row);
+let get_square = ((r, c): index, grid: t('item)) =>
+  grid |> get_row(r) |> get_col(c);
+let put_square = ((r, c): index, item: 'item, grid: t('item)) => {
+  let new_row = grid |> get_row(r) |> put_col(c, item);
+  grid |> put_row(r, new_row);
 };
 
 let index_list: list(index) = [
