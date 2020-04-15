@@ -10,21 +10,15 @@ let view_of_square =
     : Vdom.Node.t =>
   switch (square) {
   | Unmarked =>
-    Vdom.Node.div(
-      [
-        Vdom.Attr.classes(["square"]),
-        ...is_active
-             ? [
-               Vdom.Attr.on_click(_ =>
-                 inject(
-                   Update.Action.MarkSquare(subgrid_index, square_index),
-                 )
-               ),
-             ]
-             : [],
-      ],
-      [],
-    )
+    let click_handlers =
+      is_active
+        ? [
+          Vdom.Attr.on_click(_ =>
+            inject(Update.Action.MarkSquare(subgrid_index, square_index))
+          ),
+        ]
+        : [];
+    Vdom.Node.div([Vdom.Attr.classes(["square"]), ...click_handlers], []);
   | Marked(p) =>
     Vdom.Node.div([Vdom.Attr.classes(["square"])], [PlayerMark.view(p)])
   };
