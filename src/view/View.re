@@ -20,6 +20,15 @@ let view_of_square =
     Vdom.Node.div([Vdom.Attr.classes(["square"])], [PlayerMark.view(p)])
   };
 
+let cursor_attr = (p: Player.t) =>
+  Vdom.Attr.create(
+    "style",
+    switch (p) {
+    | X => "cursor: url(cursor-x.svg), pointer;"
+    | O => "cursor: url(cursor-o.svg), pointer;"
+    },
+  );
+
 let view =
     (~inject: Update.Action.t => Vdom.Event.t, model: Model.t): Vdom.Node.t => {
   let squares =
@@ -34,7 +43,7 @@ let view =
   let winner_line =
     model |> Model.winner |> Option.map(WinnerLine.view) |> Option.to_list;
   Vdom.Node.div(
-    [Vdom.Attr.id("board")],
+    [Vdom.Attr.id("board"), cursor_attr(model.player_turn)],
     [Grid.view] @ squares @ winner_line,
   );
 };

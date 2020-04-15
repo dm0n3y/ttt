@@ -17,6 +17,9 @@
   background-color: transparent;
   z-index: var(--board-z);
 }
+#board:focus {
+  outline: 0;
+}
 
 #grid {
   position: absolute;
