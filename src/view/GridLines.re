@@ -17,7 +17,7 @@ let line = ((x1, y1), (x2, y2)) =>
 
 let view =
   Vdom.Node.div(
-    [Vdom.Attr.id("grid")],
+    [Vdom.Attr.classes(["grid-lines"])],
     [
       svg(
         "svg",

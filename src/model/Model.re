@@ -2,39 +2,44 @@ type square =
   | Unmarked
   | Marked(Player.t);
 
+type subgrid = Grid.t(square);
+type grid = Grid.t(subgrid);
+
 type t = {
-  board: Grid.t(square),
+  board: grid,
   player_turn: Player.t,
 };
 
 // required by Incr_dom
 let cutoff = (===);
 
+let empty_subgrid = (
+  (Unmarked, Unmarked, Unmarked),
+  (Unmarked, Unmarked, Unmarked),
+  (Unmarked, Unmarked, Unmarked),
+);
+
 let init: t = {
   player_turn: X,
   board: (
-    (Unmarked, Unmarked, Unmarked),
-    (Unmarked, Unmarked, Unmarked),
-    (Unmarked, Unmarked, Unmarked),
+    (empty_subgrid, empty_subgrid, empty_subgrid),
+    (empty_subgrid, empty_subgrid, empty_subgrid),
+    (empty_subgrid, empty_subgrid, empty_subgrid),
   ),
 };
 
-let winner = (model: t): option(Grid.three_in_a_row) =>
-  Grid.threes_in_a_row
-  |> List.filter_map(three_in_a_row => {
-       let (i0, i1, i2) = three_in_a_row;
-       switch (
-         model.board |> Grid.get_square(i0),
-         model.board |> Grid.get_square(i1),
-         model.board |> Grid.get_square(i2),
-       ) {
-       | (Marked(p0), Marked(p1), Marked(p2)) when p0 == p1 && p1 == p2 =>
-         Some(three_in_a_row)
-       | _ => None
-       };
-     })
-  |> (
-    fun
-    | [] => None
-    | [three_in_a_row, ..._] => Some(three_in_a_row)
-  );
+let subgrid_winner =
+    (subgrid: subgrid): option((Player.t, Grid.three_in_a_row)) =>
+  subgrid
+  |> Grid.has_three_in_a_row(
+       ~item_val=
+         fun
+         | Unmarked => None
+         | Marked(p) => Some(p),
+     );
+
+let grid_winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) =>
+  grid
+  |> Grid.has_three_in_a_row(~item_val=subgrid =>
+       subgrid_winner(subgrid) |> Option.map(((p, _)) => p)
+     );

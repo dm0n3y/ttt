@@ -20,7 +20,7 @@ let view = (((r0, c0), _, (r2, c2))) => {
     };
   svg(
     "svg",
-    [Vdom.Attr.id("winner-line"), attr("viewBox", "0 0 60 60")],
+    [Vdom.Attr.classes(["winner-line"]), attr("viewBox", "0 0 60 60")],
     [
       svg(
         "line",

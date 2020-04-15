@@ -18,3 +18,5 @@ let put_component = (i, c, (c0, c1, c2)) =>
   | 1 => (c0, c, c2)
   | _two => (c0, c1, c)
   };
+
+let map = (f, (c0, c1, c2)) => (f(c0), f(c1), f(c2));

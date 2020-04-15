@@ -1,9 +1,11 @@
 :root {
-  --stroke-color: black;
+  --subgrid-color: #999;
+  --grid-color: black;
   --board-z: 0;
   --grid-z: 1;
-  --square-z: 2;
-  --winner-line-z: 3;
+  --subgrid-z: 2;
+  --square-z: 3;
+  --winner-line-z: 4;
 }
 
 #board {
@@ -11,17 +13,37 @@
   margin: auto;
   height: 96vh;
   width: 96vh;
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
-  background-color: transparent;
   z-index: var(--board-z);
 }
 #board:focus {
   outline: 0;
 }
 
-#grid {
+.grid {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: transparent;
+  z-index: var(--grid-z);
+}
+
+.subgrid {
+  position: relative;
+  display: grid;
+  height: 90%;
+  width: 90%;
+  top: 5%;
+  left: 5%;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: transparent;
+  z-index: var(--subgrid-z);
+}
+
+.grid-lines {
   position: absolute;
   top: 0;
   left: 0;
@@ -29,12 +51,17 @@
   width: 100%;
   z-index: var(--grid-z);
 }
-#grid svg {
-  stroke: var(--stroke-color);
+.grid-lines > svg {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1;
   fill: none;
+}
+.grid > .grid-lines {
+  stroke: var(--grid-color);
+}
+.subgrid > .grid-lines {
+  stroke: var(--subgrid-color);
 }
 
 .square {
@@ -45,35 +72,41 @@
   z-index: var(--square-z);
 }
 
-.player-mark-x {
-  margin: auto;
-  height: 100%;
-  width: 100%;
-  fill: none;
-  stroke: var(--stroke-color);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
+.player-mark-x,
 .player-mark-o {
   margin: auto;
   height: 100%;
   width: 100%;
   fill: none;
-  stroke: var(--stroke-color);
   stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
+.square > .player-mark-x,
+.square > .player-mark-o {
+  stroke: var(--subgrid-color);
+};
+.subgrid > .player-mark-x,
+.subgrid > .player-mark-o {
+  stroke: var(--grid-color);
+};
 
-#winner-line {
+
+.winner-line {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   fill: none;
-  stroke: var(--stroke-color);
+  stroke: var(--grid-color);
   stroke-width: 2;
   stroke-linecap: round;
   z-index: var(--winner-line-z);
+}
+.subgrid > .winner-line {
+  stroke: var(--subgrid-color);
+}
+.grid > .winner-line {
+  stroke: var(--grid-color);
 }
