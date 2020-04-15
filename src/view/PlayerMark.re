@@ -7,7 +7,7 @@ let view = (p: Player.t): Vdom.Node.t =>
   switch (p) {
   | X =>
     Vdom.Node.div(
-      [Vdom.Attr.classes(["player-mark-x"])],
+      [Vdom.Attr.classes(["player-mark"])],
       [
         svg(
           "svg",
@@ -39,7 +39,7 @@ let view = (p: Player.t): Vdom.Node.t =>
     )
   | O =>
     Vdom.Node.div(
-      [Vdom.Attr.classes(["player-mark-o"])],
+      [Vdom.Attr.classes(["player-mark"])],
       [
         svg(
           "svg",

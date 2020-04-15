@@ -81,33 +81,27 @@
   z-index: var(--square-z);
 }
 
-.player-mark-x,
-.player-mark-o {
+.player-mark {
   margin: auto;
   height: 100%;
   width: 100%;
 }
-.player-mark-x > svg,
-.player-mark-o > svg {
+.player-mark > svg {
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.subgrid.inactive > .square > .player-mark-x > svg,
-.subgrid.inactive > .square > .player-mark-o > svg {
+.subgrid.inactive > .square > .player-mark > svg {
   stroke: var(--inactive-subgrid-color);
 }
-.subgrid.active > .square > .player-mark-x > svg,
-.subgrid.active > .square > .player-mark-o > svg {
+.subgrid.active > .square > .player-mark > svg {
   stroke: var(--active-subgrid-color);
 }
-.subgrid > .player-mark-x > svg,
-.subgrid > .player-mark-o > svg {
+.subgrid > .player-mark > svg {
   stroke: var(--grid-color);
 }
-.subgrid > .player-mark-x,
-.subgrid > .player-mark-o {
+.subgrid > .player-mark {
   position: absolute;
   z-index: var(--big-player-mark-z);
   cursor: not-allowed;
