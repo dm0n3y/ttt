@@ -3,7 +3,7 @@ module Vdom = Virtual_dom.Vdom;
 let view_of_square =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
-      index: Board.square_index,
+      index: Board.index,
       square: Model.square,
     )
     : Vdom.Node.t =>
@@ -33,11 +33,11 @@ let view =
     (~inject: Update.Action.t => Vdom.Event.t, model: Model.t): Vdom.Node.t => {
   let squares =
     Board.index_list
-    |> List.map(sq_index =>
+    |> List.map(index =>
          view_of_square(
            ~inject,
-           sq_index,
-           model.board |> Board.get_square(sq_index),
+           index,
+           model.board |> Board.get_square(index),
          )
        );
   let winner_line =

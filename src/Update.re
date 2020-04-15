@@ -1,7 +1,7 @@
 module Action = {
   [@deriving sexp]
   type t =
-    | MarkSquare(Board.square_index);
+    | MarkSquare(Board.index);
 };
 
 let update = (action: Action.t, model: Model.t): Model.t =>
