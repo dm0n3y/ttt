@@ -15,6 +15,7 @@ let line = ((x1, y1), (x2, y2)) =>
     [],
   );
 
+let (a, b) = (1, 59);
 let view =
   Vdom.Node.div(
     [Vdom.Attr.classes(["grid-lines"])],
@@ -23,10 +24,10 @@ let view =
         "svg",
         [attr("viewBox", "0 0 60 60")],
         [
-          line((20, 1), (20, 59)),
-          line((40, 1), (40, 59)),
-          line((1, 20), (59, 20)),
-          line((1, 40), (59, 40)),
+          line((20, a), (20, b)),
+          line((40, a), (40, b)),
+          line((a, 20), (b, 20)),
+          line((a, 40), (b, 40)),
         ],
       ),
     ],

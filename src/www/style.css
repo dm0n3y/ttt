@@ -5,7 +5,9 @@
   --grid-z: 1;
   --subgrid-z: 2;
   --square-z: 3;
-  --winner-line-z: 4;
+  --small-winner-line-z: 4;
+  --big-player-mark-z: 5;
+  --big-winner-line-z: 6;
 }
 
 #board {
@@ -33,10 +35,10 @@
 .subgrid {
   position: relative;
   display: grid;
-  height: 90%;
-  width: 90%;
-  top: 5%;
-  left: 5%;
+  height: 92%;
+  width: 92%;
+  top: 4%;
+  left: 4%;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
   background-color: transparent;
@@ -77,19 +79,27 @@
   margin: auto;
   height: 100%;
   width: 100%;
+}
+.player-mark-x > svg,
+.player-mark-o > svg {
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.square > .player-mark-x,
-.square > .player-mark-o {
+.square > .player-mark-x > svg,
+.square > .player-mark-o > svg {
   stroke: var(--subgrid-color);
-};
+}
+.subgrid > .player-mark-x > svg,
+.subgrid > .player-mark-o > svg {
+  stroke: var(--grid-color);
+}
 .subgrid > .player-mark-x,
 .subgrid > .player-mark-o {
-  stroke: var(--grid-color);
-};
+  position: absolute;
+  z-index: var(--big-player-mark-z);
+}
 
 
 .winner-line {
@@ -102,11 +112,12 @@
   stroke: var(--grid-color);
   stroke-width: 2;
   stroke-linecap: round;
-  z-index: var(--winner-line-z);
 }
 .subgrid > .winner-line {
   stroke: var(--subgrid-color);
+  z-index: var(--small-winner-line-z);
 }
 .grid > .winner-line {
   stroke: var(--grid-color);
+  z-index: var(--big-winner-line-z);
 }
