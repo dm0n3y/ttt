@@ -82,15 +82,26 @@
 }
 
 .player-mark {
-  margin: auto;
+  position: relative;
+}
+.subgrid > .player-mark {
   height: 100%;
   width: 100%;
+}
+.square > .player-mark {
+  height: 92%;
+  width: 92%;
+  top: 4%;
+  left: 4%;
 }
 .player-mark > svg {
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+.grid > .square > .player-mark > svg {
+  stroke: var(--grid-color);
 }
 .subgrid.inactive > .square > .player-mark > svg {
   stroke: var(--inactive-subgrid-color);
