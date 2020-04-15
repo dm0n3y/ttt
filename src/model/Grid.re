@@ -40,3 +40,6 @@ let threes_in_a_row: list(three_in_a_row) = [
   ((0, 0), (1, 1), (2, 2)),
   ((0, 2), (1, 1), (2, 0)),
 ];
+
+let map = (f: 'item1 => 'item2, grid: t('item1)): t('item2) =>
+  grid |> Triple.map(Triple.map(f));
