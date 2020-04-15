@@ -74,7 +74,7 @@ let view_of_subgrid =
 let view_of_grid =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
-      active_subgrid: option(Grid.index),
+      ~active_subgrid: option(Grid.index),
       grid: Model.grid,
     )
     : Vdom.Node.t => {
@@ -106,5 +106,7 @@ let view_of_grid =
 let view = (~inject, model: Model.t) =>
   Vdom.Node.div(
     [Vdom.Attr.id("board"), cursor_attr(model.player_turn)],
-    [view_of_grid(~inject, model.active_subgrid, model.board)],
+    [
+      view_of_grid(~inject, ~active_subgrid=model.active_subgrid, model.board),
+    ],
   );
