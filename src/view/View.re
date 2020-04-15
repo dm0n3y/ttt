@@ -23,15 +23,6 @@ let view_of_square =
     Vdom.Node.div([Vdom.Attr.classes(["square"])], [PlayerMark.view(p)])
   };
 
-let cursor_attr = (p: Player.t) =>
-  Vdom.Attr.create(
-    "style",
-    switch (p) {
-    | X => "cursor: url(cursor-x.svg), pointer;"
-    | O => "cursor: url(cursor-o.svg), pointer;"
-    },
-  );
-
 let view_of_subgrid =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
@@ -97,10 +88,19 @@ let view_of_grid =
   );
 };
 
-let view = (~inject, model: Model.t) =>
+let view = (~inject, model: Model.t) => {
+  let cursor_attr =
+    Vdom.Attr.create(
+      "style",
+      switch (model.player_turn) {
+      | X => "cursor: url(cursor-x.svg), pointer;"
+      | O => "cursor: url(cursor-o.svg), pointer;"
+      },
+    );
   Vdom.Node.div(
-    [Vdom.Attr.id("board"), cursor_attr(model.player_turn)],
+    [Vdom.Attr.id("board"), cursor_attr],
     [
       view_of_grid(~inject, ~active_subgrid=model.active_subgrid, model.board),
     ],
   );
+};
