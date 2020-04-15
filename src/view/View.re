@@ -4,8 +4,7 @@ let view_of_square =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
       ~is_active: bool,
-      subgrid_index: Grid.index,
-      index: Grid.index,
+      ~index as (subgrid_index, square_index): (Grid.index, Grid.index),
       square: Model.square,
     )
     : Vdom.Node.t =>
@@ -17,7 +16,9 @@ let view_of_square =
         ...is_active
              ? [
                Vdom.Attr.on_click(_ =>
-                 inject(Update.Action.MarkSquare(subgrid_index, index))
+                 inject(
+                   Update.Action.MarkSquare(subgrid_index, square_index),
+                 )
                ),
              ]
              : [],
@@ -41,20 +42,20 @@ let view_of_subgrid =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
       ~is_active: bool,
-      subgrid_index: Grid.index,
+      ~index as subgrid_index: Grid.index,
       subgrid: Model.subgrid,
     )
     : Vdom.Node.t => {
   let squares =
     Grid.index_list
-    |> List.map(index =>
-         view_of_square(
-           ~inject,
-           ~is_active,
-           subgrid_index,
-           index,
-           subgrid |> Grid.get_item(index),
-         )
+    |> List.map(square_index =>
+         subgrid
+         |> Grid.get_item(square_index)
+         |> view_of_square(
+              ~inject,
+              ~is_active,
+              ~index=(subgrid_index, square_index),
+            )
        );
   let winner_marks =
     switch (Model.subgrid_winner(subgrid)) {
@@ -90,7 +91,7 @@ let view_of_grid =
              | Some(j) => j == subgrid_index
              }
            };
-         view_of_subgrid(~inject, ~is_active, subgrid_index, subgrid);
+         view_of_subgrid(~inject, ~is_active, ~index=subgrid_index, subgrid);
        });
   let winner_line =
     Model.grid_winner(grid)
