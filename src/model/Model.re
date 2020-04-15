@@ -7,6 +7,7 @@ type grid = Grid.t(subgrid);
 
 type t = {
   board: grid,
+  active_subgrid: option(Grid.index),
   player_turn: Player.t,
 };
 
@@ -21,6 +22,7 @@ let empty_subgrid = (
 
 let init: t = {
   player_turn: X,
+  active_subgrid: None,
   board: (
     (empty_subgrid, empty_subgrid, empty_subgrid),
     (empty_subgrid, empty_subgrid, empty_subgrid),

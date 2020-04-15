@@ -1,5 +1,6 @@
 :root {
-  --subgrid-color: #999;
+  --inactive-subgrid-color: #ccc;
+  --active-subgrid-color: #333;
   --grid-color: black;
   --board-z: 0;
   --grid-z: 1;
@@ -44,6 +45,9 @@
   background-color: transparent;
   z-index: var(--subgrid-z);
 }
+.subgrid.inactive {
+  cursor: not-allowed;
+}
 
 .grid-lines {
   position: absolute;
@@ -62,8 +66,11 @@
 .grid > .grid-lines {
   stroke: var(--grid-color);
 }
-.subgrid > .grid-lines {
-  stroke: var(--subgrid-color);
+.subgrid.inactive > .grid-lines {
+  stroke: var(--inactive-subgrid-color);
+}
+.subgrid.active > .grid-lines {
+  stroke: var(--active-subgrid-color);
 }
 
 .square {
@@ -87,9 +94,13 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.square > .player-mark-x > svg,
-.square > .player-mark-o > svg {
-  stroke: var(--subgrid-color);
+.subgrid.inactive > .square > .player-mark-x > svg,
+.subgrid.inactive > .square > .player-mark-o > svg {
+  stroke: var(--inactive-subgrid-color);
+}
+.subgrid.active > .square > .player-mark-x > svg,
+.subgrid.active > .square > .player-mark-o > svg {
+  stroke: var(--active-subgrid-color);
 }
 .subgrid > .player-mark-x > svg,
 .subgrid > .player-mark-o > svg {
@@ -99,8 +110,8 @@
 .subgrid > .player-mark-o {
   position: absolute;
   z-index: var(--big-player-mark-z);
+  cursor: not-allowed;
 }
-
 
 .winner-line {
   position: absolute;
@@ -114,8 +125,13 @@
   stroke-linecap: round;
 }
 .subgrid > .winner-line {
-  stroke: var(--subgrid-color);
   z-index: var(--small-winner-line-z);
+}
+.subgrid.inactive > .winner-line {
+  stroke: var(--inactive-subgrid-color);
+}
+.subgrid.active > .winner-line {
+  stroke: var(--active-subgrid-color);
 }
 .grid > .winner-line {
   stroke: var(--grid-color);
