@@ -1,6 +1,29 @@
 module Vdom = Virtual_dom.Vdom;
 open Incr_dom;
 
+// Welcome to Reason!
+//
+// Reason is OCaml with modern syntax.
+//
+// Some differences (Reason vs OCaml):
+// `f(x)`, `g(y, z)`  vs `f x`, `g y z`
+// `list(int)`        vs `int list`
+// `let _ = ...;`     vs `let _ = ... in`
+// `switch (_) {...}` vs `match (_) with ...`
+// `{...}`            vs `struct...end`, `sig...end`, etc
+
+// Notes on new language features featured in this
+// codebase that you haven't seen yet (not special
+// to Reason, also available in OCaml)
+// -  pipe operator (reverse function application)
+//       x |> f(a, b)  ===  f(a, b, x)
+//       (hint: think obj |> meth(a, b))
+// -  labeled arguments
+//       let circle = (~stroke: Color.t, ~radius: int) => {
+//         ...
+//       };
+//       circle(~radius=4, ~stroke=Red);
+
 module App = {
   module Model = Model;
   module Action = Update.Action;
