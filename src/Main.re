@@ -51,6 +51,7 @@ module App = {
   };
 };
 
+// Incr_dom is the specific Model-View-Update library we are using
 Incr_dom.Start_app.start(
   (module App),
   ~bind_to_element_with_id="container",

@@ -5,6 +5,7 @@ type square =
 type subgrid = Grid.t(square);
 type grid = Grid.t(subgrid);
 
+// Model of the Model-View-Update architecture
 type t = {
   board: grid,
   active_subgrid: option(Grid.index),

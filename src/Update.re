@@ -4,6 +4,7 @@ module Action = {
     | MarkSquare(Grid.index, Grid.index);
 };
 
+// Update of Model-View-Update architecture
 let update = (action: Action.t, model: Model.t): Model.t =>
   switch (action) {
   | MarkSquare(subgrid_index, square_index) =>

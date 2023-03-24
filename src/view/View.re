@@ -88,6 +88,7 @@ let view_of_grid =
   );
 };
 
+// View of the Model-View-Update architecture
 let view = (~inject: Update.Action.t => Vdom.Event.t, model: Model.t) => {
   let cursor_attr =
     Vdom.Attr.create(
