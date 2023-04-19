@@ -1,36 +1,36 @@
-module Vdom = Virtual_dom.Vdom;
+open Virtual_dom.Vdom;
 
 let view_of_square =
     (
-      ~inject: Update.Action.t => Vdom.Event.t,
+      ~inject,
       ~is_active: bool,
       ~index as (subgrid_index, square_index): (Grid.index, Grid.index),
       square: Model.square,
     )
-    : Vdom.Node.t =>
+    : Node.t =>
   switch (square) {
   | Unmarked =>
     let click_handlers =
       is_active
         ? [
-          Vdom.Attr.on_click(_ =>
+          Attr.on_click(_ =>
             inject(Update.Action.MarkSquare(subgrid_index, square_index))
           ),
         ]
         : [];
-    Vdom.Node.div([Vdom.Attr.classes(["square"]), ...click_handlers], []);
+    Node.div(~attr=Attr.(many([class_("square"), ...click_handlers])), []);
   | Marked(p) =>
-    Vdom.Node.div([Vdom.Attr.classes(["square"])], [PlayerMark.view(p)])
+    Node.div(~attr=Attr.class_("square"), [PlayerMark.view(p)])
   };
 
 let view_of_subgrid =
     (
-      ~inject: Update.Action.t => Vdom.Event.t,
+      ~inject,
       ~is_active: bool,
       ~index as subgrid_index: Grid.index,
       subgrid: Model.subgrid,
     )
-    : Vdom.Node.t => {
+    : Node.t => {
   let squares =
     Grid.index_list
     |> List.map(square_index =>
@@ -50,19 +50,14 @@ let view_of_subgrid =
         PlayerMark.view(p),
       ]
     };
-  Vdom.Node.div(
-    [Vdom.Attr.classes(["subgrid", is_active ? "active" : "inactive"])],
+  Node.div(
+    ~attr=Attr.classes(["subgrid", is_active ? "active" : "inactive"]),
     [GridLines.view] @ squares @ winner_marks,
   );
 };
 
 let view_of_grid =
-    (
-      ~inject: Update.Action.t => Vdom.Event.t,
-      ~active_subgrid: option(Grid.index),
-      grid: Model.grid,
-    )
-    : Vdom.Node.t => {
+    (~inject, ~active_subgrid: option(Grid.index), grid: Model.grid): Node.t => {
   let subgrids =
     Grid.index_list
     |> List.map(subgrid_index => {
@@ -82,24 +77,24 @@ let view_of_grid =
     Model.grid_winner(grid)
     |> Option.map(((_, three_in_a_row)) => WinnerLine.view(three_in_a_row))
     |> Option.to_list;
-  Vdom.Node.div(
-    [Vdom.Attr.classes(["grid"])],
+  Node.div(
+    ~attr=Attr.class_("grid"),
     [GridLines.view] @ subgrids @ winner_line,
   );
 };
 
 // View of the Model-View-Update architecture
-let view = (~inject: Update.Action.t => Vdom.Event.t, model: Model.t) => {
+let view = (~inject, model: Model.t) => {
   let cursor_attr =
-    Vdom.Attr.create(
+    Attr.create(
       "style",
       switch (model.player_turn) {
       | X => "cursor: url(cursor-x.svg), pointer;"
       | O => "cursor: url(cursor-o.svg), pointer;"
       },
     );
-  Vdom.Node.div(
-    [Vdom.Attr.id("board"), cursor_attr],
+  Node.div(
+    ~attr=Attr.(many([id("board"), cursor_attr])),
     [
       view_of_grid(~inject, ~active_subgrid=model.active_subgrid, model.board),
     ],
