@@ -4,7 +4,7 @@ let view_of_square =
     (
       ~inject,
       ~is_active: bool,
-      ~index as (subgrid_index, square_index): (Grid.index, Grid.index),
+      ~index: Grid.index,
       square: Model.square,
     )
     : Node.t =>
@@ -13,9 +13,7 @@ let view_of_square =
     let click_handlers =
       is_active
         ? [
-          Attr.on_click(_ =>
-            inject(Update.Action.MarkSquare(subgrid_index, square_index))
-          ),
+          Attr.on_click(_ => inject(Update.Action.MarkSquare(index))),
         ]
         : [];
     Node.div(~attr=Attr.(many([class_("square"), ...click_handlers])), []);
@@ -23,58 +21,21 @@ let view_of_square =
     Node.div(~attr=Attr.class_("square"), [PlayerMark.view(p)])
   };
 
-let view_of_subgrid =
-    (
-      ~inject,
-      ~is_active: bool,
-      ~index as subgrid_index: Grid.index,
-      subgrid: Model.subgrid,
-    )
-    : Node.t => {
+let view_of_grid =
+    (~inject, grid: Model.grid): Node.t => {
   let squares =
     Grid.index_list
-    |> List.map(square_index =>
-         subgrid
-         |> Grid.get_item(square_index)
-         |> view_of_square(
-              ~inject,
-              ~is_active,
-              ~index=(subgrid_index, square_index),
-            )
-       );
-  let winner_marks =
-    switch (Model.subgrid_winner(subgrid)) {
-    | None => []
-    | Some((p, three_in_a_row)) => [
-        WinnerLine.view(three_in_a_row),
-        PlayerMark.view(p),
-      ]
-    };
-  Node.div(
-    ~attr=Attr.classes(["subgrid", is_active ? "active" : "inactive"]),
-    [GridLines.view] @ squares @ winner_marks,
-  );
-};
-
-let view_of_grid =
-    (~inject, ~active_subgrid: option(Grid.index), grid: Model.grid): Node.t => {
-  let subgrids =
-    Grid.index_list
-    |> List.map(subgrid_index => {
-         let subgrid = grid |> Grid.get_item(subgrid_index);
+    |> List.map(index => {
+         let square = grid |> Grid.get_item(index);
          let is_active =
-           switch (Model.subgrid_winner(subgrid)) {
+           switch (Model.winner(grid)) {
            | Some(_) => false
-           | None =>
-             switch (active_subgrid) {
-             | None => true
-             | Some(j) => j == subgrid_index
-             }
+           | None => true
            };
-         view_of_subgrid(~inject, ~is_active, ~index=subgrid_index, subgrid);
+         view_of_square(~inject, ~is_active, ~index, square);
        });
   let winner_line =
-    Model.grid_winner(grid)
+    Model.winner(grid)
     |> Option.map(((_, three_in_a_row)) => WinnerLine.view(three_in_a_row))
     |> Option.to_list;
   Node.div(
