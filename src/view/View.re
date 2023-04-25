@@ -1,28 +1,19 @@
 open Virtual_dom.Vdom;
 
 let view_of_square =
-    (
-      ~inject,
-      ~is_active: bool,
-      ~index: Grid.index,
-      square: Model.square,
-    )
+    (~inject, ~is_active: bool, ~index: Grid.index, square: Model.square)
     : Node.t =>
   switch (square) {
   | Unmarked =>
     let click_handlers =
       is_active
-        ? [
-          Attr.on_click(_ => inject(Update.Action.MarkSquare(index))),
-        ]
-        : [];
+        ? [Attr.on_click(_ => inject(Update.Action.MarkSquare(index)))] : [];
     Node.div(~attr=Attr.(many([class_("square"), ...click_handlers])), []);
   | Marked(p) =>
     Node.div(~attr=Attr.class_("square"), [PlayerMark.view(p)])
   };
 
-let view_of_grid =
-    (~inject, grid: Model.grid): Node.t => {
+let view_of_grid = (~inject, grid: Model.grid): Node.t => {
   let squares =
     Grid.index_list
     |> List.map(index => {
@@ -40,7 +31,7 @@ let view_of_grid =
     |> Option.to_list;
   Node.div(
     ~attr=Attr.class_("grid"),
-    [GridLines.view] @ subgrids @ winner_line,
+    [GridLines.view] @ squares @ winner_line,
   );
 };
 
@@ -56,8 +47,6 @@ let view = (~inject, model: Model.t) => {
     );
   Node.div(
     ~attr=Attr.(many([id("board"), cursor_attr])),
-    [
-      view_of_grid(~inject, ~active_subgrid=model.active_subgrid, model.board),
-    ],
+    [view_of_grid(~inject, model.board)],
   );
 };
