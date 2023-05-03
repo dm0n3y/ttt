@@ -2,9 +2,9 @@ type square =
   | Unmarked
   | Marked(Player.t);
 
-type grid = unit;
+type grid; //optional
 
-type t = unit;
+type t;
 
 type board = {
   squarelst: list((square, (int, int))),
@@ -12,11 +12,11 @@ type board = {
   player_turn: Player.t,
 };
 
-// required by Incr_dom
-let cutoff = (===);
+let cutoff: ('a, 'a) => bool;
 
-let init: t = failwith("todo");
+let init: t;
 
-let winner = failwith("todo");
+let winner:
+  grid => option((Player.t, ((int, int), (int, int), (int, int))));
 
-let makeBoard = failwith("todo");
+let makeBoard: t => board; //used in view
