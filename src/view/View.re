@@ -26,6 +26,41 @@ let view_of_square =
   };
 
 let view = (~inject, model: Model.t) => {
-  //TODO
-  Vdom.Node.div([Vdom.Attr.id("board")], []);
+  let rec mksquare =
+          (sqlst: list(Model.square), index: (int, int), active: bool) => {
+    switch (sqlst) {
+    | [] => []
+    | [sq, ...rest] =>
+      let sqview = view_of_square(~inject, ~index, ~active, sq);
+      let (x, y) = index;
+      [sqview, ...mksquare(rest, (x, y + 1), active)];
+    };
+  };
+  let active_sub = Model.active_subboard(model);
+  let is_active = (n: int): bool => {
+    switch (active_sub) {
+    | None => true
+    | Some(sub) => sub == n
+    };
+  };
+  let rec mklist = (lst: list(list(Model.square)), index: int) => {
+    switch (lst) {
+    | [] => []
+    | [sq, ...rest] =>
+      let sqview = mksquare(sq, (index, 0), is_active(index));
+      is_active(index)
+        ? [PlayerMark.grid_view(sqview), ...mklist(rest, index + 1)]
+        : [
+          PlayerMark.in_active_view([PlayerMark.grid_view(sqview)]),
+          ...mklist(rest, index + 1),
+        ];
+    };
+  };
+  let sqview = mklist(Model.squares(model), 0);
+
+  Vdom.Node.div(
+    [Vdom.Attr.id("board")],
+    //[Vdom.Node.div([Vdom.Attr.classes(["grid"])], sqview)],
+    [PlayerMark.grid_view(sqview)],
+  );
 };
