@@ -3,20 +3,6 @@ module Vdom = Virtual_dom.Vdom;
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
 
-let in_active_view = (squares: list(Vdom.Node.t)) => {
-  Vdom.Node.div(
-    [
-      Vdom.Attr.class_("inactive"),
-      Vdom.Attr.style(
-        Css_gen.create(
-          ~field="background-color",
-          ~value="rgba(50, 50, 50, 0.3)",
-        ),
-      ),
-    ],
-    squares,
-  );
-};
 let grid_view = (squares: list(Vdom.Node.t)) => {
   Vdom.Node.div(
     [
@@ -43,7 +29,7 @@ let square = (w: bool) =>
       attr("stroke", "black"),
       attr("stroke-width", "1"),
       w
-        ? attr("fill", "rgba(173, 216, 230, 0.3)")
+        ? attr("fill", "rgba(173, 216, 230, 0.2)")
         : attr("fill", "rgba(0, 0, 0, 0)"),
     ],
     [],

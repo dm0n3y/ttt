@@ -3,40 +3,27 @@ type square = {
   winning: bool,
 };
 
-type index = (int, int);
-type subgrid = list(square);
-type grid = list(list(square));
+type index = int;
+type grid = list(square);
 type t = {
   grid,
   player_turn: Player.t,
-  active_subboard: option(int),
 };
 
 let blank_square = {marked: None, winning: false};
-let blank_subgrid = [
-  blank_square,
-  blank_square,
-  blank_square,
-  blank_square,
-  blank_square,
-  blank_square,
-  blank_square,
-  blank_square,
-  blank_square,
-];
 let blank_grid = [
-  blank_subgrid,
-  blank_subgrid,
-  blank_subgrid,
-  blank_subgrid,
-  blank_subgrid,
-  blank_subgrid,
-  blank_subgrid,
-  blank_subgrid,
-  blank_subgrid,
+  blank_square,
+  blank_square,
+  blank_square,
+  blank_square,
+  blank_square,
+  blank_square,
+  blank_square,
+  blank_square,
+  blank_square,
 ];
 
-let rec get_item = (lst: list('a), index: int): 'a =>
+let rec get_item = (lst: grid, index: index): square =>
   switch (lst, index) {
   | ([x, ..._], 0) => x
   | ([_, ...xs], n) => get_item(xs, n - 1)
@@ -45,9 +32,9 @@ let rec get_item = (lst: list('a), index: int): 'a =>
     failwith("get_item: index out of bounds " ++ string_of_int(index))
   };
 
-let init = {grid: blank_grid, player_turn: Player.X, active_subboard: None};
+let init = {grid: blank_grid, player_turn: Player.X};
 
-let line: list((int, int, int)) = [
+let line: list((index, index, index)) = [
   (0, 1, 2),
   (3, 4, 5),
   (6, 7, 8),
@@ -58,7 +45,7 @@ let line: list((int, int, int)) = [
   (2, 4, 6),
 ];
 
-let rec dye_board = (squarelst: list(square), n: int): list(square) => {
+let rec dye_board = (squarelst: list(square), n: index): list(square) => {
   switch (squarelst, n) {
   | ([], _) => []
   | ([x, ...xs], 0) =>
@@ -68,25 +55,19 @@ let rec dye_board = (squarelst: list(square), n: int): list(square) => {
   };
 };
 
-type sub_square = {
-  subgrid,
-  win: bool,
-};
-
-let small_squares = (g: subgrid): sub_square => {
+let squares = ({grid, _}: t): list(square) => {
   let squarelst =
-    g
+    grid
     |> List.map(square => {
          let {marked, _} = square;
          {marked, winning: false};
        });
-
   line
   |> List.filter_map(tri => {
        let (i, j, k) = tri;
-       let a = get_item(g, i);
-       let b = get_item(g, j);
-       let c = get_item(g, k);
+       let a = get_item(grid, i);
+       let b = get_item(grid, j);
+       let c = get_item(grid, k);
        switch (a.marked, b.marked, c.marked) {
        | (Some(p), Some(q), Some(r)) =>
          if (p == q && q == r) {
@@ -99,29 +80,18 @@ let small_squares = (g: subgrid): sub_square => {
      })
   |> (
     fun
-    | [] => {subgrid: squarelst, win: false}
-    | [w, ..._] => {
+    | [] => squarelst
+    | [w, ..._] =>
+      {
         let (i, j, k) = w;
         let squarelst = dye_board(squarelst, i);
         let squarelst = dye_board(squarelst, j);
         let squarelst = dye_board(squarelst, k);
-        {subgrid: squarelst, win: true};
+        squarelst;
       }
   );
 };
-
-let squares = ({grid, _}: t): list(list(square)) => {
-  grid
-  |> List.map(g => {
-       let {subgrid, _} = small_squares(g);
-       subgrid;
-     });
-};
 let player_turn = ({player_turn, _}: t): Player.t => player_turn;
-
-
-let active_subboard: t => option(int) =
-  ({active_subboard, _}: t) => active_subboard;
 
 // required by Incr_dom
 let cutoff = (===);
