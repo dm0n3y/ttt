@@ -3,6 +3,7 @@ module Vdom = Virtual_dom.Vdom;
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
 
+// grid_view can revieve a list of 9 squares and render them into 3x3
 let grid_view = (squares: list(Vdom.Node.t)) => {
   Vdom.Node.div(
     [
@@ -35,6 +36,7 @@ let square = (w: bool) =>
     [],
   );
 
+//view build a virtual dom from a square
 let view = (s: Model.square): Vdom.Node.t =>
   switch (s.marked) {
   | Some(X) =>
