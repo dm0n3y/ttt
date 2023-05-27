@@ -5,6 +5,8 @@ type square = {
 
 type t;
 
+let init: t;
+
 let squares: t => list(square);
 let player_turn: t => Player.t;
 
