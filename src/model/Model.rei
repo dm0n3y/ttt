@@ -3,13 +3,7 @@ type square = {
   winning: bool,
 };
 
-type grid = list(square);
-type t = {
-  grid,
-  player_turn: Player.t,
-};
-
-let init: t;
+type t;
 
 let squares: t => list(square);
 let player_turn: t => Player.t;
