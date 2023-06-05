@@ -35,11 +35,7 @@ module App = {
   let on_startup = (~schedule_action as _, _) => Async_kernel.Deferred.unit;
 
   let create =
-      (
-        model: Incr.t(Model.t),
-        ~old_model as _: Incr.t(Model.t),
-        ~inject: Update.Action.t => Vdom.Event.t,
-      ) => {
+      (model: Incr.t(Model.t), ~old_model as _: Incr.t(Model.t), ~inject) => {
     open Incr.Let_syntax;
     let%map model = model;
     Component.create(
@@ -51,6 +47,7 @@ module App = {
   };
 };
 
+// Incr_dom is the specific Model-View-Update library we are using
 Incr_dom.Start_app.start(
   (module App),
   ~bind_to_element_with_id="container",

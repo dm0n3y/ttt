@@ -1,11 +1,11 @@
-module Vdom = Virtual_dom.Vdom;
+open Virtual_dom;
 
-let svg = Vdom.Node.create_svg;
+let svg = Vdom.Node.create_svg("svg");
 let attr = Vdom.Attr.create;
 
 // Here is an example of how to use grid_view
 // let view : Vdom.Node.t = grid_view([square1, square2, square3, square4, square5, square6, square7, square8, square9])
-// layout: 
+// layout:
 // _____ _____ _____
 // |_1_| |_2_| |_3_|
 // _____ _____ _____
@@ -17,33 +17,37 @@ let attr = Vdom.Attr.create;
 // output: a class with 3*3 grid layout
 let grid_view = (squares: list(Vdom.Node.t)) => {
   Vdom.Node.div(
-    [
-      Vdom.Attr.class_("grid"),
-      Vdom.Attr.style(Css_gen.create(~field="display", ~value="grid")),
-      Vdom.Attr.style(
-        Css_gen.create(
-          ~field="grid-template-columns",
-          ~value="repeat(3, 1fr)",
+    ~attr=
+      Vdom.Attr.many([
+        Vdom.Attr.class_("grid"),
+        Vdom.Attr.style(Css_gen.create(~field="display", ~value="grid")),
+        Vdom.Attr.style(
+          Css_gen.create(
+            ~field="grid-template-columns",
+            ~value="repeat(3, 1fr)",
+          ),
         ),
-      ),
-      Vdom.Attr.style(Css_gen.create(~field="grid-auto-flow", ~value="row")),
-    ],
+        Vdom.Attr.style(
+          Css_gen.create(~field="grid-auto-flow", ~value="row"),
+        ),
+      ]),
     squares,
   );
 };
 
 let square = (w: bool) =>
   svg(
-    "rect",
-    [
-      attr("width", "24"),
-      attr("height", "24"),
-      attr("stroke", "black"),
-      attr("stroke-width", "1"),
-      w
-        ? attr("fill", "rgba(173, 216, 230, 0.2)")
-        : attr("fill", "rgba(0, 0, 0, 0)"),
-    ],
+    ~key="rect",
+    ~attr=
+      Vdom.Attr.many([
+        attr("width", "24"),
+        attr("height", "24"),
+        attr("stroke", "black"),
+        attr("stroke-width", "1"),
+        w
+          ? attr("fill", "rgba(173, 216, 230, 0.2)")
+          : attr("fill", "rgba(0, 0, 0, 0)"),
+      ]),
     [],
   );
 
@@ -52,30 +56,31 @@ let view = (s: Model.square): Vdom.Node.t =>
   switch (s.marked) {
   | Some(X) =>
     Vdom.Node.div(
-      [Vdom.Attr.classes(["player-mark"])],
+      ~attr=Vdom.Attr.classes(["player-mark"]),
       [
         svg(
-          "svg",
-          [attr("viewBox", "0 0 24 24")],
+          ~attr=attr("viewBox", "0 0 24 24"),
           [
             Vdom.Node.create_svg(
               "line",
-              [
-                attr("x1", "18"),
-                attr("y1", "6"),
-                attr("x2", "6"),
-                attr("y2", "18"),
-              ],
+              ~attr=
+                Vdom.Attr.many([
+                  attr("x1", "18"),
+                  attr("y1", "6"),
+                  attr("x2", "6"),
+                  attr("y2", "18"),
+                ]),
               [],
             ),
             Vdom.Node.create_svg(
               "line",
-              [
-                attr("x1", "6"),
-                attr("y1", "6"),
-                attr("x2", "18"),
-                attr("y2", "18"),
-              ],
+              ~attr=
+                Vdom.Attr.many([
+                  attr("x1", "6"),
+                  attr("y1", "6"),
+                  attr("x2", "18"),
+                  attr("y2", "18"),
+                ]),
               [],
             ),
             square(s.winning),
@@ -85,15 +90,19 @@ let view = (s: Model.square): Vdom.Node.t =>
     )
   | Some(O) =>
     Vdom.Node.div(
-      [Vdom.Attr.classes(["player-mark"])],
+      ~attr=Vdom.Attr.classes(["player-mark"]),
       [
         svg(
-          "svg",
-          [attr("viewBox", "0 0 24 24")],
+          ~attr=attr("viewBox", "0 0 24 24"),
           [
             Vdom.Node.create_svg(
               "circle",
-              [attr("cx", "12"), attr("cy", "12"), attr("r", "7")],
+              ~attr=
+                Vdom.Attr.many([
+                  attr("cx", "12"),
+                  attr("cy", "12"),
+                  attr("r", "7"),
+                ]),
               [],
             ),
             square(s.winning),
@@ -103,7 +112,13 @@ let view = (s: Model.square): Vdom.Node.t =>
     )
   | None =>
     Vdom.Node.div(
-      [Vdom.Attr.classes(["player-mark"])],
-      [svg("svg", [attr("viewBox", "0 0 24 24")], [square(s.winning)])],
+      ~attr=Vdom.Attr.classes(["player-mark"]),
+      [
+        Vdom.Node.create_svg(
+          "svg",
+          ~attr=attr("viewBox", "0 0 24 24"),
+          [square(s.winning)],
+        ),
+      ],
     )
   };
