@@ -1,18 +1,17 @@
 open Virtual_dom.Vdom;
 
-let svg = Node.create_svg;
-let attr = Attr.create;
-
 let line = ((x1, y1), (x2, y2)) =>
-  svg(
+  Node.create_svg(
     "line",
     ~attr=
-      Attr.many([
-        attr("x1", string_of_int(x1)),
-        attr("y1", string_of_int(y1)),
-        attr("x2", string_of_int(x2)),
-        attr("y2", string_of_int(y2)),
-      ]),
+      Attr.many(
+        Attr.[
+          create("x1", string_of_int(x1)),
+          create("y1", string_of_int(y1)),
+          create("x2", string_of_int(x2)),
+          create("y2", string_of_int(y2)),
+        ],
+      ),
     [],
   );
 
@@ -21,7 +20,7 @@ let view =
   Node.div(
     ~attr=Attr.classes(["grid-lines"]),
     [
-      svg(
+      Node.create_svg(
         "svg",
         ~attr=attr("viewBox", "0 0 60 60"),
         [
