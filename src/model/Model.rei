@@ -5,7 +5,6 @@ type square = {
 };
 
 // Model.t contain all relevant details regarding the current state of the game
-// Notice the type of squares and player_turn
 type t;
 
 // The initial state of the game

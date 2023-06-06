@@ -1,37 +1,5 @@
 open Virtual_dom.Vdom;
 
-// Here is an example of how to use grid_view
-// let view : Node.t = grid_view([square1, square2, square3, square4, square5, square6, square7, square8, square9])
-// layout:
-// _____ _____ _____
-// |_1_| |_2_| |_3_|
-// _____ _____ _____
-// |_4_| |_5_| |_6_|
-// _____ _____ _____
-// |_7_| |_8_| |_9_|
-
-// input: a list of 9 square class (can be built by view_of_square)
-// output: a class with 3*3 grid layout
-let grid_view = (squares: list(Node.t)) => {
-  Node.div(
-    ~attr=
-      Attr.many(
-        Attr.[
-          class_("grid"),
-          style(Css_gen.create(~field="display", ~value="grid")),
-          style(
-            Css_gen.create(
-              ~field="grid-template-columns",
-              ~value="repeat(3, 1fr)",
-            ),
-          ),
-          style(Css_gen.create(~field="grid-auto-flow", ~value="row")),
-        ],
-      ),
-    squares,
-  );
-};
-
 let square = (w: bool) =>
   Node.create_svg(
     "rect",

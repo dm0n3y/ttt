@@ -3,6 +3,7 @@ type square = {
   winning: bool,
 };
 
+// todo
 type t = unit;
 
 let init = failwith("TODO");
